@@ -215,16 +215,8 @@ else {
 					$maxCommonUserScore = 0;
 					$maxScoreClusterId = "";
 					$currentClusterSize = sizeof($clusterMembers);
-					
-					$debugMerge = false;
-					if($clusterKey == "1081-3475-13348-14763-711303-818340-2384071-6359662-13027572-13473852-13578592-14277276-15368007-21993699-31838293-76333886-") {
-						$debugMerge = true;
-					}
 						
 					foreach ($clusters as $clusterKeyToMerge => $clusterMembersToMerge) {
-						if($debugMerge == true) {
-							$logger->logDebug("=============================== NEW LOOP");
-						}
 						if($clusterKey != $clusterKeyToMerge) {
 							//only merge smaller clusters into larger ones	
 							if(sizeof($clusterMembersToMerge) >= $currentClusterSize) {
@@ -232,30 +224,13 @@ else {
 								if($commonFollowersCount > $maxCommonUserScore) {
 									$maxCommonUserScore = $commonFollowersCount;	
 									$maxScoreClusterId = $clusterKeyToMerge;
-									if($debugMerge == true) {
-										$logger->logDebug("Cluster: ".$maxScoreClusterId);
-										$logger->logDebug("Score: ".$maxCommonUserScore);
-									}
 								}
 							}	
 						}
 					}
-					
-					if($debugMerge == true) {
-							$logger->logDebug("Checking Max Values");
-							$logger->logDebug("Score: ".$maxCommonUserScore);
-							$logger->logDebug(" Value:  ".($maxCommonUserScore/$currentClusterSize));
-							$logger->logDebug("	Minimum Ratio:	$minimumRatioFollowers");
-						}
-															
+													
 					if(($maxCommonUserScore/$currentClusterSize) >= $minimumRatioFollowers)	 {
-						//merge these two clusters	
-						if($debugMerge == true) {
-							$logger->logDebug("Merge Clusters");
-							$logger->logDebug("		$clusterKey");
-							$logger->logDebug(" into ");
-							$logger->logDebug("		$maxScoreClusterId");
-						}
+						//merge these two clusters
 
 						$currentCluster = array();
 						foreach($clusterMembers as $c) {
@@ -273,14 +248,8 @@ else {
 						foreach($currentCluster as $newClusterKeyMember) {
 							$arrayKey .= $newClusterKeyMember."-";
 						}
-						if	($debugMerge == true) {
-							$logger->logDebug("New Cluster $arrayKey");
-						}
 						
 						if(!array_key_exists($arrayKey, $clusters)) {
-							if($debugMerge == true) {
-								$logger->logDebug("Adding Merge Clusters $arrayKey");
-							}
 							$clusters[$arrayKey] = $currentCluster;
 						}	
 						
