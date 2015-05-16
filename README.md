@@ -1,5 +1,5 @@
 # twitter-cluster
-PHP Code to cluster Twitter followers into groups.
+PHP Code to cluster Twitter followers into groups. Twitter users can be in more than one group.
 
 Load the users and who they follow into the database and then execute the php script.
 
